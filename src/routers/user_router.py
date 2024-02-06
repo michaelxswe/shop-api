@@ -28,7 +28,7 @@ async def register_user(
     return user_model
 
 
-@router.get(path="/me", status_code=200, response_model=UserModel, summary="Search user")
+@router.get(path="/me", status_code=200, response_model=UserModel, summary="Get my info")
 async def get_user(
     access_token: str = Depends(get_access_token),
     user_service: UserService = Depends(),

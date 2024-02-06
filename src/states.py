@@ -5,9 +5,6 @@ from fastapi import Depends, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
 create_all_tables_query = """
-    drop schema if exists public cascade;
-    create schema public;
-
     create table users(
         id serial primary key,
         username varchar(50) unique,
@@ -18,7 +15,7 @@ create_all_tables_query = """
         id serial primary key,
         name varchar(25) unique,
         price numeric(10, 2) not null,
-        category varchar(25) check(category in ('Action', 'Adventure', 'Puzzle', 'Strategy')),
+        category varchar(25) not null,
         qty integer not null
     );
 
@@ -63,21 +60,6 @@ create_all_tables_query = """
 
 """
 
-test_data = """
-    insert into users(username, password) values ('string', 'string');
-
-    insert into items(name, price, category, qty) values
-    ('gta5', 30, 'Action', 200),
-    ('gta4', 20, 'Action', 250),
-    ('HearthStone', 0, 'Strategy', 500);
-"""
-
-drop_all_tables_query = """
-    drop schema if exists public cascade;
-    create schema public;
-"""
-
-
 class PostgresClient:
     def __init__(self, url: str):
         self.url = url
@@ -86,18 +68,12 @@ class PostgresClient:
     async def create_all_tables(self):
         async with self.pool.acquire() as conn:  # type: ignore
             await conn.execute(create_all_tables_query)
-            await conn.execute(test_data)
-
-    async def drop_all_tables(self):
-        async with self.pool.acquire() as conn:  # type: ignore
-            await conn.execute(drop_all_tables_query)
 
     async def setup(self):
         self.pool = await asyncpg.create_pool(self.url)
         await self.create_all_tables()
 
     async def teardown(self):
-        await self.drop_all_tables()
         await self.pool.close()  # type: ignore
 
 
