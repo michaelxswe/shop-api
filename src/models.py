@@ -48,53 +48,51 @@ class CartSummaryModel(BaseModel):
     total: float
 
 
-class ShippingModel(BaseModel):
+class ShippingDetailModel(BaseModel):
     id: int
     address: str
 
 
-class ShippingRegistrationModel(BaseModel):
+class ShippingDetailRegistrationModel(BaseModel):
     address: str
 
 
-class PaymentModel(BaseModel):
+class PaymentDetailModel(BaseModel):
     id: int
     card_number: str
     cvv: str
 
 
-class PaymentRegistrationModel(BaseModel):
+class PaymentDetailRegistrationModel(BaseModel):
     card_number: str
     cvv: str
 
 
-class PurchaseRegistrationModel(BaseModel):
-    shipping_registration_model: ShippingRegistrationModel
-    payment_registration_model: PaymentRegistrationModel
+class OrderRegistrationModel(BaseModel):
+    shipping_detail_registration_model: ShippingDetailRegistrationModel
+    payment_detail_registration_model: PaymentDetailRegistrationModel
 
 
-class ReceiptModel(BaseModel):
+class OrderModel(BaseModel):
     id: int
     total: float
     user_id: int
-    shipping_id: int
-    payment_id: int
-    date_created: datetime
+    shipping_detail_id: int
+    payment_detail_id: int
+    order_date: datetime
 
 
-class PurchaseModel(BaseModel):
-    id: int
+class OrderDetailModel(BaseModel):
     item_id: int
     qty: int
-    receipt_id: int
+    order_id: int
 
 
-class DetailedReceiptModel(BaseModel):
+class OrderSummaryModel(BaseModel):
     item_models: list[ItemModel]
-    receipt_model: ReceiptModel
+    order_model: OrderModel
+
 
 class ItemRatingModel(BaseModel):
     item_id: int
     rating: int
-
-

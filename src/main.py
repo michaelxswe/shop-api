@@ -7,7 +7,7 @@ from fastapi import FastAPI, Request, status
 from fastapi.concurrency import asynccontextmanager
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from routers import auth_router, cart_router, item_router, purchase_router, user_router
+from routers import auth_router, cart_router, item_router, order_router, user_router
 from states import PostgresClient, RedisClient
 
 
@@ -65,7 +65,7 @@ app.include_router(auth_router.router)
 app.include_router(user_router.router)
 app.include_router(item_router.router)
 app.include_router(cart_router.router)
-app.include_router(purchase_router.router)
+app.include_router(order_router.router)
 
 
 @app.get("/ping", tags=["Health"], summary="Check server is running")

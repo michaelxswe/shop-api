@@ -1,7 +1,7 @@
 import asyncpg
 
 
-class ItemDatabase:
+class ItemRepository:
     async def register_item(
         self, name: str, price: float, category: str, qty: int, db: asyncpg.Connection
     ) -> asyncpg.Record:

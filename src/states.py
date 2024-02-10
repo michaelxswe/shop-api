@@ -19,31 +19,31 @@ create_all_tables_query = """
         qty integer not null
     );
 
-    create table payments(
+    create table payment_details(
         id serial primary key,
         card_number varchar(25) not null,
         cvv varchar(25) not null
     );
 
-    create table shippings(
+    create table shipping_details(
         id serial primary key,
         address varchar(100) not null
     );
 
-    create table receipts(
+    create table orders(
         id serial primary key,
         total numeric(10, 2) not null,
         user_id integer references users(id) on delete cascade not null,
-        shipping_id integer references shippings(id) on delete set null,
-        payment_id integer references payments(id) on delete set null,
-        date_created timestamptz default current_timestamp not null
+        shipping_detail_id integer references shipping_details(id) on delete set null,
+        payment_detail_id integer references payment_details(id) on delete set null,
+        order_date timestamptz default current_timestamp not null
     );
 
-    create table purchases(
-        id serial primary key,
+    create table order_details(
         item_id integer references items(id) on delete set null,
         qty integer not null,
-        receipt_id integer references receipts(id) on delete cascade
+        order_id integer references orders(id) on delete cascade,
+        primary key(item_id, order_id)
     );
 
     create table carts(

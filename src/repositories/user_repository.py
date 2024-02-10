@@ -1,7 +1,7 @@
 import asyncpg
 
 
-class UserDatabase:
+class UserRepository:
     async def register_user(self, username: str, password: str, db: asyncpg.Connection) -> asyncpg.Record | None:
         query = """
             insert into users(username, password) values

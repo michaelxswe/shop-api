@@ -12,7 +12,7 @@ router = APIRouter(prefix="/v1/carts", tags=["Cart"])
 
 
 @router.patch(
-    path="/{item_id}", status_code=status.HTTP_200_OK, response_model=None, summary="Add or remove items to cart"
+    path="/me/{item_id}", status_code=status.HTTP_200_OK, response_model=None, summary="Add or remove items to my cart"
 )
 async def update_item_qty(
     item_id: int,
@@ -53,7 +53,9 @@ async def update_item_qty(
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Item not found in your cart.")
 
 
-@router.delete(path="", status_code=status.HTTP_200_OK, response_model=None, summary="Remove all items from cart.")
+@router.delete(
+    path="/me", status_code=status.HTTP_200_OK, response_model=None, summary="Remove all items from my cart."
+)
 async def clear_cart(
     cart_service: CartService = Depends(),
     db: asyncpg.Connection = Depends(get_postgres_conn),

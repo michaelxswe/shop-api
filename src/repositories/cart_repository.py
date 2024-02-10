@@ -1,7 +1,7 @@
 import asyncpg
 
 
-class CartDatabase:
+class CartRepository:
     async def get_item(self, item_id: int, user_id: int, db: asyncpg.Connection) -> asyncpg.Record | None:
         query = """
             select * from carts

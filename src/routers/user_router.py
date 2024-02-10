@@ -53,7 +53,7 @@ async def get_user(
     path="/me/password",
     status_code=status.HTTP_200_OK,
     response_model=None,
-    summary="Reset password and invoke all access tokens",
+    summary="Reset my password",
 )
 async def reset_password(
     user_password_reset_model: UserPasswordResetModel = Depends(),
@@ -83,9 +83,7 @@ async def reset_password(
         auth_service.set_access_token_min_issue_date(user_id=user_id, redis=redis)
 
 
-@router.delete(
-    path="/me", status_code=status.HTTP_200_OK, response_model=None, summary="Delete user and invoke all access tokens"
-)
+@router.delete(path="/me", status_code=status.HTTP_200_OK, response_model=None, summary="Delete my accoun")
 async def delete_user(
     user_password_model: UserPasswordModel,
     access_token: str = Depends(get_access_token),
